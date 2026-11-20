@@ -18,4 +18,11 @@ export type Recurso = 'camara' | 'notificaciones';
 export type ResultadoReserva =
   | { tipo: 'prestamo' }
   | { tipo: 'espera'; posicion: number }
-  | { tipo: 'ya' };
+  | { tipo: 'ya' }
+  | { tipo: 'no-existe' };
+
+export type EstadoLibro =
+  | 'disponible'
+  | 'sin-ejemplares'
+  | 'prestado'
+  | 'en-espera';
