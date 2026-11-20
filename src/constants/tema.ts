@@ -29,10 +29,13 @@ export const espaciados = {
 
 export const tamanios = {
   titulo: 24,
+  tituloDetalle: 28,
   subtitulo: 18,
   cuerpo: 16,
   pie: 13,
   icono: 22,
+  iconoGrande: 42,
+  codigo404: 48,
 };
 
 export const radios = {

@@ -22,7 +22,7 @@ export function EstadoVacio({
     <View style={estilos.contenedor}>
       <Ionicons
         name="file-tray-outline"
-        size={42}
+        size={tamanios.iconoGrande}
         color={colores.textoSuave}
       />
       <Text style={estilos.titulo}>{titulo}</Text>

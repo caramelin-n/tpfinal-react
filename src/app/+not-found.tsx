@@ -33,7 +33,7 @@ const estilos = StyleSheet.create({
     backgroundColor: colores.fondo,
   },
   codigo: {
-    fontSize: 48,
+    fontSize: tamanios.codigo404,
     fontWeight: '700',
     color: colores.primario,
   },

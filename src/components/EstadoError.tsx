@@ -19,7 +19,7 @@ export function EstadoError({
     <View style={estilos.contenedor}>
       <Ionicons
         name="cloud-offline-outline"
-        size={42}
+        size={tamanios.iconoGrande}
         color={colores.error}
       />
       <Text style={estilos.titulo}>{titulo}</Text>
