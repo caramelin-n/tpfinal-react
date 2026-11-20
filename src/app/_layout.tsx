@@ -1,11 +1,19 @@
-import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+
+import { NavegacionRaiz } from '@/components/NavegacionRaiz';
+import { BibliotecaProvider } from '@/context/BibliotecaContext';
+
+// Ancla del Stack raíz: un deep link (por ejemplo /buscar) deja las tabs
+// debajo en la pila, para que "atrás" vuelva a ellas.
+export const unstable_settings = {
+  anchor: '(tabs)',
+};
 
 export default function LayoutRaiz() {
   return (
-    <>
-      <Stack screenOptions={{ headerTitle: 'Biblioteca IPF' }} />
+    <BibliotecaProvider>
+      <NavegacionRaiz />
       <StatusBar style="dark" />
-    </>
+    </BibliotecaProvider>
   );
 }
