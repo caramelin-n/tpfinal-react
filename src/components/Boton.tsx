@@ -1,4 +1,10 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  type StyleProp,
+  type ViewStyle,
+} from 'react-native';
 
 import {
   colores,
@@ -16,6 +22,7 @@ type Props = {
   variante?: Variante;
   deshabilitado?: boolean;
   etiquetaAccesible?: string;
+  estilo?: StyleProp<ViewStyle>;
 };
 
 export function Boton({
@@ -24,6 +31,7 @@ export function Boton({
   variante = 'primario',
   deshabilitado = false,
   etiquetaAccesible,
+  estilo,
 }: Props) {
   return (
     <Pressable
@@ -39,6 +47,7 @@ export function Boton({
         variante === 'peligro' && estilos.peligro,
         deshabilitado && estilos.deshabilitado,
         pressed && !deshabilitado && estilos.presionado,
+        estilo,
       ]}
     >
       <Text
