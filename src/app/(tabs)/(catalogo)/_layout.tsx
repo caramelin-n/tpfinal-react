@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 
+import { BotonPersonal } from '@/components/BotonPersonal';
 import { colores } from '@/constants/tema';
 
 export default function LayoutCatalogo() {
@@ -11,7 +12,13 @@ export default function LayoutCatalogo() {
         contentStyle: { backgroundColor: colores.fondo },
       }}
     >
-      <Stack.Screen name="index" options={{ title: 'Catálogo' }} />
+      <Stack.Screen
+        name="index"
+        options={{
+          title: 'Catálogo',
+          headerRight: () => <BotonPersonal />,
+        }}
+      />
       <Stack.Screen name="libro/[isbn]" options={{ title: 'Libro' }} />
     </Stack>
   );
