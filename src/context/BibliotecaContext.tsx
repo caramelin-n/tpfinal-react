@@ -8,9 +8,10 @@ import {
 
 import { CREDENCIALES_PERSONAL } from '@/constants/auth';
 import { YO } from '@/constants/biblioteca';
-import { ESPERAS_INICIALES, LIBROS } from '@/data/libros';
+import { ESPERAS_INICIALES } from '@/data/libros';
 import { Cola } from '@/estructuras/Cola';
 import { Pila } from '@/estructuras/Pila';
+import { buscarLibro } from '@/lib/catalogo';
 import { calcularVencimiento } from '@/lib/fechas';
 import type { Libro } from '@/types';
 import type {
@@ -59,10 +60,6 @@ let proximoAviso = 0;
 function crearIdAviso(): string {
   proximoAviso += 1;
   return `aviso-${proximoAviso}`;
-}
-
-function buscarLibro(isbn: string): Libro | undefined {
-  return LIBROS.find((libro) => libro.isbn === isbn);
 }
 
 export function BibliotecaProvider({ children }: { children: ReactNode }) {
