@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from 'expo-router';
-import { useCallback } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import {
   FlatList,
   Pressable,
@@ -23,6 +23,11 @@ import {
 import { useBiblioteca } from '@/hooks/useBiblioteca';
 import { usePermiso, type EstadoPermiso } from '@/hooks/usePermiso';
 import { buscarLibro } from '@/lib/catalogo';
+import {
+  cancelarRecordatorio,
+  pedirPermisoNotificaciones,
+  programarRecordatorio,
+} from '@/lib/notificaciones';
 import type { Libro } from '@/types';
 import type { Prestamo } from '@/types/biblioteca';
 
@@ -82,6 +87,11 @@ export default function Reservas() {
     }, [refrescarNotificaciones]),
   );
 
+  const [mensajeRecordatorio, setMensajeRecordatorio] = useState<
+    string | null
+  >(null);
+  const cambiandoRecordatorioRef = useRef(false);
+
   const items: ItemReserva[] = [];
   items.push({
     tipo: 'seccion',
@@ -140,8 +150,62 @@ export default function Reservas() {
     });
   }
 
-  const cambiarRecordatorio = (isbn: string, valor: boolean) => {
-    actualizarRecordatorio(isbn, valor, null);
+  const cambiarRecordatorio = async (isbn: string, valor: boolean) => {
+    if (cambiandoRecordatorioRef.current) return;
+    cambiandoRecordatorioRef.current = true;
+    setMensajeRecordatorio(null);
+
+    try {
+      if (valor) {
+        const concedido = await pedirPermisoNotificaciones();
+        if (!concedido) {
+          setMensajeRecordatorio(
+            'Para activar el recordatorio necesitás permitir las notificaciones. Podés habilitarlas desde Ajustes.',
+          );
+          return;
+        }
+
+        const libro = buscarLibro(isbn);
+        const prestamo = prestamos.find(
+          (candidato) => candidato.isbn === isbn,
+        );
+        if (!libro || !prestamo) {
+          setMensajeRecordatorio('Ese préstamo ya no está activo.');
+          return;
+        }
+
+        const id = await programarRecordatorio(libro.titulo, isbn);
+        actualizarRecordatorio(isbn, true, id);
+      } else {
+        const prestamo = prestamos.find(
+          (candidato) => candidato.isbn === isbn,
+        );
+        if (prestamo?.notificacionId) {
+          await cancelarRecordatorio(prestamo.notificacionId);
+        }
+        actualizarRecordatorio(isbn, false, null);
+      }
+    } catch {
+      setMensajeRecordatorio(
+        'No pudimos programar el recordatorio. Probá de nuevo en unos segundos.',
+      );
+    } finally {
+      cambiandoRecordatorioRef.current = false;
+      void permisoNotificaciones.refrescar();
+    }
+  };
+
+  const devolverPrestamo = async (isbn: string) => {
+    const prestamo = prestamos.find(
+      (candidato) => candidato.isbn === isbn,
+    );
+    try {
+      if (prestamo?.notificacionId) {
+        await cancelarRecordatorio(prestamo.notificacionId);
+      }
+    } finally {
+      devolver(isbn);
+    }
   };
 
   const estadoNotificaciones = permisoNotificaciones.estado;
@@ -188,10 +252,12 @@ export default function Reservas() {
             <TarjetaPrestamo
               libro={item.libro}
               prestamo={item.prestamo}
-              onDevolver={() => devolver(item.libro.isbn)}
-              onCambiarRecordatorio={(valor) =>
-                cambiarRecordatorio(item.libro.isbn, valor)
-              }
+              onDevolver={() => {
+                void devolverPrestamo(item.libro.isbn);
+              }}
+              onCambiarRecordatorio={(valor) => {
+                void cambiarRecordatorio(item.libro.isbn, valor);
+              }}
             />
           );
         }
@@ -206,6 +272,13 @@ export default function Reservas() {
       ListHeaderComponent={
         <View style={estilos.encabezado}>
           {filaNotificaciones}
+          {mensajeRecordatorio ? (
+            <View style={estilos.mensajeRecordatorio}>
+              <Text style={estilos.textoMensajeRecordatorio}>
+                {mensajeRecordatorio}
+              </Text>
+            </View>
+          ) : null}
           {avisos.length > 0 ? (
             <View style={estilos.avisos}>
               <Text style={estilos.tituloSeccion}>Avisos</Text>
@@ -260,6 +333,17 @@ const estilos = StyleSheet.create({
     fontSize: tamanios.pie,
     fontWeight: '600',
     color: colores.primario,
+  },
+  mensajeRecordatorio: {
+    backgroundColor: colores.advertenciaSuave,
+    borderRadius: radios.md,
+    borderWidth: 1,
+    borderColor: colores.advertencia,
+    padding: espaciados.md,
+  },
+  textoMensajeRecordatorio: {
+    fontSize: tamanios.pie,
+    color: colores.advertencia,
   },
   avisos: {
     gap: espaciados.sm,
