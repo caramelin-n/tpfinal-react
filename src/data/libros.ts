@@ -109,7 +109,7 @@ export const LIBROS: Libro[] = [
     ejemplares: 0,
   },
   {
-    isbn: '9788498675399',
+    isbn: '9789876091657',
     titulo: 'Los juegos del hambre',
     autor: 'Suzanne Collins',
     anio: 2009,
