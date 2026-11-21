@@ -1,11 +1,27 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useFocusEffect } from 'expo-router';
+import { useCallback } from 'react';
+import {
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import { SeparadorLista } from '@/components/SeparadorLista';
 import { TarjetaAviso } from '@/components/TarjetaAviso';
 import { TarjetaEspera } from '@/components/TarjetaEspera';
 import { TarjetaPrestamo } from '@/components/TarjetaPrestamo';
-import { colores, espaciados, tamanios } from '@/constants/tema';
+import {
+  colores,
+  espaciados,
+  radios,
+  tamanios,
+  toqueMinimo,
+} from '@/constants/tema';
 import { useBiblioteca } from '@/hooks/useBiblioteca';
+import { usePermiso, type EstadoPermiso } from '@/hooks/usePermiso';
 import { buscarLibro } from '@/lib/catalogo';
 import type { Libro } from '@/types';
 import type { Prestamo } from '@/types/biblioteca';
@@ -27,6 +43,25 @@ type ItemReserva =
     }
   | { tipo: 'vacio'; clave: string; mensaje: string };
 
+const MENSAJES_NOTIFICACIONES: Record<EstadoPermiso, string> = {
+  cargando: 'Consultando el permiso de notificaciones…',
+  concedido: 'Notificaciones activadas.',
+  preguntable:
+    'Notificaciones desactivadas. Se piden al activar “Recordarme”.',
+  bloqueado:
+    'Notificaciones bloqueadas. Habilitalas desde Ajustes.',
+};
+
+const ICONOS_NOTIFICACIONES: Record<
+  EstadoPermiso,
+  'notifications' | 'notifications-off' | 'notifications-outline'
+> = {
+  cargando: 'notifications-outline',
+  concedido: 'notifications',
+  preguntable: 'notifications-outline',
+  bloqueado: 'notifications-off',
+};
+
 export default function Reservas() {
   const {
     prestamos,
@@ -37,6 +72,15 @@ export default function Reservas() {
     posicionEnEspera,
     quitarAviso,
   } = useBiblioteca();
+
+  const permisoNotificaciones = usePermiso('notificaciones');
+  const refrescarNotificaciones = permisoNotificaciones.refrescar;
+
+  useFocusEffect(
+    useCallback(() => {
+      void refrescarNotificaciones();
+    }, [refrescarNotificaciones]),
+  );
 
   const items: ItemReserva[] = [];
   items.push({
@@ -100,6 +144,34 @@ export default function Reservas() {
     actualizarRecordatorio(isbn, valor, null);
   };
 
+  const estadoNotificaciones = permisoNotificaciones.estado;
+  const filaNotificaciones = (
+    <View style={estilos.estadoNotificaciones}>
+      <Ionicons
+        name={ICONOS_NOTIFICACIONES[estadoNotificaciones]}
+        size={tamanios.icono}
+        color={
+          estadoNotificaciones === 'bloqueado'
+            ? colores.advertencia
+            : colores.primario
+        }
+      />
+      <Text style={estilos.textoEstado}>
+        {MENSAJES_NOTIFICACIONES[estadoNotificaciones]}
+      </Text>
+      {estadoNotificaciones === 'bloqueado' ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Abrir Ajustes para habilitar notificaciones"
+          onPress={permisoNotificaciones.abrirAjustes}
+          style={estilos.botonAjustes}
+        >
+          <Text style={estilos.textoAjustes}>Abrir Ajustes</Text>
+        </Pressable>
+      ) : null}
+    </View>
+  );
+
   return (
     <FlatList
       data={items}
@@ -132,18 +204,21 @@ export default function Reservas() {
         );
       }}
       ListHeaderComponent={
-        avisos.length > 0 ? (
-          <View style={estilos.avisos}>
-            <Text style={estilos.tituloSeccion}>Avisos</Text>
-            {avisos.map((aviso) => (
-              <TarjetaAviso
-                key={aviso.id}
-                aviso={aviso}
-                onDescartar={() => quitarAviso(aviso.id)}
-              />
-            ))}
-          </View>
-        ) : undefined
+        <View style={estilos.encabezado}>
+          {filaNotificaciones}
+          {avisos.length > 0 ? (
+            <View style={estilos.avisos}>
+              <Text style={estilos.tituloSeccion}>Avisos</Text>
+              {avisos.map((aviso) => (
+                <TarjetaAviso
+                  key={aviso.id}
+                  aviso={aviso}
+                  onDescartar={() => quitarAviso(aviso.id)}
+                />
+              ))}
+            </View>
+          ) : null}
+        </View>
       }
       ItemSeparatorComponent={SeparadorLista}
       contentContainerStyle={estilos.contenido}
@@ -157,9 +232,37 @@ const estilos = StyleSheet.create({
     padding: espaciados.md,
     paddingBottom: espaciados.xl,
   },
+  encabezado: {
+    gap: espaciados.md,
+    marginBottom: espaciados.md,
+  },
+  estadoNotificaciones: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: espaciados.sm,
+    backgroundColor: colores.superficie,
+    borderRadius: radios.md,
+    borderWidth: 1,
+    borderColor: colores.borde,
+    padding: espaciados.md,
+  },
+  textoEstado: {
+    flex: 1,
+    fontSize: tamanios.pie,
+    color: colores.textoSuave,
+  },
+  botonAjustes: {
+    minHeight: toqueMinimo,
+    minWidth: toqueMinimo,
+    justifyContent: 'center',
+  },
+  textoAjustes: {
+    fontSize: tamanios.pie,
+    fontWeight: '600',
+    color: colores.primario,
+  },
   avisos: {
     gap: espaciados.sm,
-    marginBottom: espaciados.md,
   },
   tituloSeccion: {
     fontSize: tamanios.subtitulo,
