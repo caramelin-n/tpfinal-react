@@ -27,7 +27,7 @@ export function TarjetaLibro({ libro, disponibles, onPress }: Props) {
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={`${libro.titulo}, de ${libro.autor}`}
+      accessibilityLabel={`${libro.titulo}, de ${libro.autor}. ${textoDisponibilidad}`}
       accessibilityHint="Abre el detalle del libro"
       onPress={onPress}
       style={({ pressed }) => [
