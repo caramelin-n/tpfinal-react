@@ -17,6 +17,7 @@ export const colores = {
   advertenciaSuave: '#FEF3C7',
   sombra: '#000000',
   blanco: '#FFFFFF',
+  overlay: 'rgba(0, 0, 0, 0.65)',
 };
 
 export const espaciados = {
