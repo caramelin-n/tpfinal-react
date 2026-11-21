@@ -221,7 +221,45 @@ En un **development build** o app standalone se puede usar `bibliotecaipf://`.
 
 ## Capturas
 
-Las capturas se guardan en [`docs/capturas/`](docs/capturas/README.md). La lista de tomas requeridas está en ese archivo.
+Las capturas se guardan en [`docs/capturas/`](docs/capturas/README.md). Las que están acá se generaron desde la **versión web** de la app para dejar una vista previa; la versión web no reproduce cámara, diálogos del sistema ni notificaciones nativas. Las tomas de esos casos en un teléfono real están marcadas como pendientes en ese archivo.
+
+| Catálogo cargando | Catálogo con error |
+|---|---|
+| <img src="docs/capturas/01-catalogo-cargando.png" width="260" /> | <img src="docs/capturas/02-catalogo-error.png" width="260" /> |
+
+| Catálogo con datos | Buscador con resultados |
+|---|---|
+| <img src="docs/capturas/03-catalogo-datos.png" width="260" /> | <img src="docs/capturas/04-buscador-resultados.png" width="260" /> |
+
+| Buscador sin resultados | Detalle |
+|---|---|
+| <img src="docs/capturas/05-buscador-vacio.png" width="260" /> | <img src="docs/capturas/06-detalle.png" width="260" /> |
+
+| Detalle inexistente | Reserva con ejemplares |
+|---|---|
+| <img src="docs/capturas/07-detalle-inexistente.png" width="260" /> | <img src="docs/capturas/08-reserva-con-ejemplares.png" width="260" /> |
+
+| Reserva sin ejemplares | Pantalla previa de cámara |
+|---|---|
+| <img src="docs/capturas/09-reserva-sin-ejemplares.png" width="260" /> | <img src="docs/capturas/10-permisos-camara.png" width="260" /> |
+
+| Escáner preguntable | Escáner concedido |
+|---|---|
+| <img src="docs/capturas/11-escaner-preguntable.png" width="260" /> | Pendiente en teléfono real: cámara apuntando a un libro. |
+
+| Login | 404 |
+|---|---|
+| <img src="docs/capturas/19-login.png" width="260" /> | <img src="docs/capturas/20-404.png" width="260" /> |
+
+| Mis reservas | Mostrador antes |
+|---|---|
+| <img src="docs/capturas/21-mis-reservas-prestamo.png" width="260" /> | <img src="docs/capturas/15-mostrador-antes.png" width="260" /> |
+
+| Mostrador después | Aviso interno |
+|---|---|
+| <img src="docs/capturas/16-mostrador-despues.png" width="260" /> | <img src="docs/capturas/17-aviso-interno.png" width="260" /> |
+
+**Pendientes en teléfono real:** `12-escaner-bloqueado.png`, `13-escaner-concedido.png`, `14-notificacion-recibida.png` y `22-escaner-cargando.png`. La lista y las instrucciones están en [`docs/capturas/README.md`](docs/capturas/README.md).
 
 ## Límites conocidos
 
