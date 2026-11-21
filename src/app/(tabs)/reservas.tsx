@@ -2,6 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useRef, useState } from 'react';
 import {
+  Alert,
   FlatList,
   Pressable,
   StyleSheet,
@@ -162,6 +163,17 @@ export default function Reservas() {
           setMensajeRecordatorio(
             'Para activar el recordatorio necesitás permitir las notificaciones. Podés habilitarlas desde Ajustes.',
           );
+          Alert.alert(
+            'Notificaciones desactivadas',
+            'Para usar Recordarme, habilitá las notificaciones de la app de Expo Go en Ajustes.',
+            [
+              { text: 'Cancelar', style: 'cancel' },
+              {
+                text: 'Abrir Ajustes',
+                onPress: () => permisoNotificaciones.abrirAjustes(),
+              },
+            ],
+          );
           return;
         }
 
@@ -188,6 +200,10 @@ export default function Reservas() {
     } catch {
       setMensajeRecordatorio(
         'No pudimos programar el recordatorio. Probá de nuevo en unos segundos.',
+      );
+      Alert.alert(
+        'No pudimos activar el recordatorio',
+        'Probá de nuevo en unos segundos. Si el problema sigue, revisá las notificaciones de Expo Go en Ajustes.',
       );
     } finally {
       cambiandoRecordatorioRef.current = false;
