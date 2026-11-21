@@ -1,6 +1,5 @@
 import type { Recurso } from '@/types/biblioteca';
 
-export const RECURSOS: Recurso[] = ['camara', 'notificaciones'];
 
 export const NOMBRES_RECURSO: Record<Recurso, string> = {
   camara: 'Cámara',
