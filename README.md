@@ -12,7 +12,7 @@ Alumno/a: Fabiana Rossi.
 - React 19.3.0
 - Expo Router 58.0.32
 - TypeScript estricto (`strict: true`)
-- Expo Go (SDK 58) en un teléfono real
+- Expo Go (SDK 58) para la prueba en el teléfono
 
 ## Cómo ejecutar
 
@@ -221,7 +221,7 @@ En un **development build** o app standalone se puede usar `bibliotecaipf://`.
 
 ## Capturas
 
-Las capturas se guardan en [`docs/capturas/`](docs/capturas/README.md). Las que están acá se generaron desde la **versión web** de la app para dejar una vista previa; la versión web no reproduce cámara, diálogos del sistema ni notificaciones nativas. Las tomas de esos casos en un teléfono real están marcadas como pendientes en ese archivo.
+Las capturas se guardan en [`docs/capturas/`](docs/capturas/README.md). Hay tomas de la app en **Expo Go en un teléfono real** y capturas de la **versión web** para la vista previa. La lista de `docs/capturas/README.md` indica el origen de cada una.
 
 | Catálogo cargando | Catálogo con error |
 |---|---|
@@ -243,23 +243,27 @@ Las capturas se guardan en [`docs/capturas/`](docs/capturas/README.md). Las que 
 |---|---|
 | <img src="docs/capturas/09-reserva-sin-ejemplares.png" width="260" /> | <img src="docs/capturas/10-permisos-camara.png" width="260" /> |
 
-| Escáner preguntable | Escáner concedido |
+| Permiso del sistema (Expo Go) | Escáner preguntable |
 |---|---|
-| <img src="docs/capturas/11-escaner-preguntable.png" width="260" /> | Pendiente en teléfono real: cámara apuntando a un libro. |
+| <img src="docs/capturas/25-permiso-sistema-camara.png" width="260" /> | <img src="docs/capturas/11-escaner-preguntable.png" width="260" /> |
 
-| Login | 404 |
+| Escáner concedido | Login |
 |---|---|
-| <img src="docs/capturas/19-login.png" width="260" /> | <img src="docs/capturas/20-404.png" width="260" /> |
+| <img src="docs/capturas/13-escaner-concedido.png" width="260" /> | <img src="docs/capturas/19-login.png" width="260" /> |
 
-| Mis reservas | Mostrador antes |
+| 404 | Mis reservas |
 |---|---|
-| <img src="docs/capturas/21-mis-reservas-prestamo.png" width="260" /> | <img src="docs/capturas/15-mostrador-antes.png" width="260" /> |
+| <img src="docs/capturas/20-404.png" width="260" /> | <img src="docs/capturas/21-mis-reservas-prestamo.png" width="260" /> |
 
-| Mostrador después | Aviso interno |
+| Mostrador antes | Mostrador después |
 |---|---|
-| <img src="docs/capturas/16-mostrador-despues.png" width="260" /> | <img src="docs/capturas/17-aviso-interno.png" width="260" /> |
+| <img src="docs/capturas/15-mostrador-antes.png" width="260" /> | <img src="docs/capturas/16-mostrador-despues.png" width="260" /> |
 
-**Pendientes en teléfono real:** `12-escaner-bloqueado.png`, `13-escaner-concedido.png`, `14-notificacion-recibida.png` y `22-escaner-cargando.png`. La lista y las instrucciones están en [`docs/capturas/README.md`](docs/capturas/README.md).
+| Aviso interno | Detalle de Los otros animatrónicos |
+|---|---|
+| <img src="docs/capturas/17-aviso-interno.png" width="260" /> | <img src="docs/capturas/26-detalle-fnaf.png" width="260" /> |
+
+
 
 ## Límites conocidos
 

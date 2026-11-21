@@ -457,7 +457,7 @@ Si esa parte no existiera, la pantalla previa y el escáner seguirían mostrando
 
 **a) Activa “Recordarme” y, antes de los 15 segundos, toca “Devolver”. ¿Qué pasaría si no cancelara la notificación?**
 
-La notificación se dispararía igual a los 15 segundos, aunque el libro ya esté devuelto: la persona recibiría un recordatorio falso. En mi app, `devolverPrestamo` cancela el id antes de quitar el préstamo (`src/app/(tabs)/reservas.tsx`, líneas 198-209):
+La notificación se dispararía igual a los 15 segundos, aunque el libro ya esté devuelto: la persona recibiría un recordatorio falso. En mi app, `devolverPrestamo` cancela el id antes de quitar el préstamo (`src/app/(tabs)/reservas.tsx`, líneas 214-225):
 
 ```ts
 const devolverPrestamo = async (isbn: string) => {
@@ -472,7 +472,7 @@ const devolverPrestamo = async (isbn: string) => {
 };
 ```
 
-El `finally` asegura que el libro se devuelva aunque la cancelación falle. También se cancela al apagar el interruptor (líneas 179-186).
+El `finally` asegura que el libro se devuelva aunque la cancelación falle. También se cancela al apagar el interruptor (líneas 191-198).
 
 **b) ¿Dónde guardo el identificador? Si la app se cierra antes de que llegue, ¿qué pasa?**
 
@@ -730,7 +730,7 @@ Para las **notificaciones no me serviría**: el permiso se pide al activar el in
 | Se abre `/libro/abc` | “No pudimos abrir el libro” + “El ISBN «abc» no es válido: tiene que tener 13 dígitos.” + **Volver al catálogo**. | `src/app/(tabs)/(catalogo)/libro/[isbn].tsx`, líneas 30-44. |
 | Se escanea un ISBN que no está en el catálogo | Aviso arriba (“No encontramos el ISBN… Seguí escaneando o escribilo a mano”), la cámara sigue activa y el ingreso manual sigue disponible. | `src/app/escanear.tsx`, líneas 67-83. |
 | La cámara está bloqueada | “La cámara está bloqueada”, **Abrir Ajustes** e ingreso manual. | `src/app/escanear.tsx`, líneas 164-183; `src/hooks/usePermiso.ts`, líneas 36-40. |
-| Las notificaciones están denegadas | En Mis reservas: estado “Notificaciones desactivadas/bloqueadas” + **Abrir Ajustes** si está bloqueado. Al activar Recordarme: mensaje y el interruptor queda apagado. Si el mostrador me entrega: aviso interno. | `src/app/(tabs)/reservas.tsx`, líneas 51-58 y 153-196; `src/app/mostrador.tsx`, líneas 70-86. |
+| Las notificaciones están denegadas | En Mis reservas: estado “Notificaciones desactivadas/bloqueadas” + **Abrir Ajustes** si está bloqueado. Al activar Recordarme: mensaje, un Alert y el interruptor queda apagado. Si el mostrador me entrega: aviso interno. | `src/app/(tabs)/reservas.tsx`, líneas 51-58 y 154-212; `src/app/mostrador.tsx`, líneas 70-86. |
 | Se intenta reservar un libro ya reservado | En el detalle, el botón queda deshabilitado con “Ya tenés este libro” o “Ya estás en la lista (posición N)”. Si se entra al modal por deep link, muestra el estado y **Ir a Mis reservas**. El Context, además, devuelve `{ tipo: 'ya' }`. | `libro/[isbn].tsx`, líneas 63-74 y 107-109; `reservar/[isbn].tsx`, líneas 66-90 y 100-114; `BibliotecaContext.tsx`, líneas 119-122. |
 | “Entregar al siguiente” con la lista de espera vacía | La tarjeta del libro no se muestra; si se llama igual, no rompe: muestra “No hay nadie en la lista de espera.” | `src/app/mostrador.tsx`, líneas 58-62; `BibliotecaContext.tsx`, `entregarSiguiente`, líneas 152-177. |
 | Login con clave incorrecta | “El usuario o la clave no son correctos. Revisá los datos e intentá de nuevo.” y sigue en el login. | `src/app/login.tsx`, líneas 29-41. |
