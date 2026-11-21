@@ -1,7 +1,7 @@
 import type { Libro } from '../types';
 
 // Catálogo de la biblioteca (al menos 15 libros).
-// Dos de ellos tienen su ISBN real para poder probar el escáner en un teléfono.
+// Varios tienen su ISBN real de una edición en español para probar el escáner.
 export const LIBROS: Libro[] = [
   {
     isbn: '9788420414706',
@@ -88,10 +88,10 @@ export const LIBROS: Libro[] = [
     ejemplares: 0,
   },
   {
-    isbn: '9786073102494',
-    titulo: 'Como agua para chocolate',
-    autor: 'Laura Esquivel',
-    anio: 1989,
+    isbn: '9788410388390',
+    titulo: 'Choujin X, tomo 4',
+    autor: 'Sui Ishida',
+    anio: 2024,
     ejemplares: 2,
   },
   {
@@ -109,10 +109,10 @@ export const LIBROS: Libro[] = [
     ejemplares: 0,
   },
   {
-    isbn: '9788408043649',
-    titulo: 'La sombra del viento',
-    autor: 'Carlos Ruiz Zafón',
-    anio: 2001,
+    isbn: '9788498675399',
+    titulo: 'Los juegos del hambre',
+    autor: 'Suzanne Collins',
+    anio: 2009,
     ejemplares: 2,
   },
   {
@@ -123,10 +123,10 @@ export const LIBROS: Libro[] = [
     ejemplares: 4,
   },
   {
-    isbn: '9788423342670',
-    titulo: 'El nombre de la rosa',
-    autor: 'Umberto Eco',
-    anio: 1980,
+    isbn: '9788417305413',
+    titulo: 'Los otros animatrónicos (The Twisted Ones)',
+    autor: 'Scott Cawthon y Kira Breed-Wrisley',
+    anio: 2017,
     ejemplares: 1,
   },
 ];
